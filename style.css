@@ -1,25 +1,23 @@
-/* Основные CSS-переменные для светлой и тёмной темы */
+/* Основные CSS-переменные для новой темной темы */
 :root {
-  --bg-color: #ffffff;
-  --text-color: #333333;
-  --section-bg-color: #f4f4f4;
-  --card-bg-color: #ffffff;
-  --primary-color: #1d72b8;
-}
-body.dark {
-  --bg-color: #121212;
+  --bg-color: #1a1a2e;
+  --primary-color: #0f3460;
+  --secondary-color: #533483;
+  --accent-color: #e94560;
   --text-color: #e0e0e0;
-  --section-bg-color: #1f1f1f;
-  --card-bg-color: #2c2c2c;
+  --card-bg-color: #16213e;
+  --header-bg: rgba(22, 33, 62, 0.85);
+  --font-main: 'Montserrat', sans-serif;
 }
+
 body {
   margin: 0;
   padding: 0;
   background: var(--bg-color);
   color: var(--text-color);
-  font-family: Arial, sans-serif;
+  font-family: var(--font-main);
   overflow-x: hidden;
-  transition: background 0.3s, color 0.3s;
+  transition: background 0.5s, color 0.5s;
 }
 
 /* Preloader */
@@ -29,7 +27,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #ffffff;
+  background: var(--bg-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,12 +35,12 @@ body {
   z-index: 2000;
 }
 .spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #ccc;
-  border-top: 5px solid var(--primary-color);
+  width: 60px;
+  height: 60px;
+  border: 5px solid var(--primary-color);
+  border-top: 5px solid var(--accent-color);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 1.2s linear infinite;
 }
 @keyframes spin {
   from { transform: rotate(0deg); }
@@ -55,8 +53,10 @@ header {
   top: 0;
   width: 100%;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 10px 0;
+  background: var(--header-bg);
+  backdrop-filter: blur(10px);
+  padding: 15px 0;
+  transition: top 0.3s;
 }
 nav ul {
   list-style: none;
@@ -66,7 +66,7 @@ nav ul {
   padding: 0;
 }
 nav ul li {
-  margin: 0 15px;
+  margin: 0 20px;
   position: relative;
 }
 nav ul li a {
@@ -75,28 +75,31 @@ nav ul li a {
   font-weight: bold;
   transition: color 0.3s;
 }
-nav ul li a:hover {
-  color: #ffd700;
+nav ul li a:hover, nav ul li a.active {
+  color: var(--accent-color);
 }
-/* Подчеркивание при наведении */
 nav ul li a::after {
   content: "";
   display: block;
   width: 0;
   height: 2px;
-  background: #ffd700;
-  transition: width 0.3s;
+  background: var(--accent-color);
+  transition: width 0.4s ease;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
 }
-nav ul li a:hover::after {
+nav ul li a:hover::after, nav ul li a.active::after {
   width: 100%;
 }
 
-/* Hero Section с анимированным градиентом и частицами */
+/* Hero Section */
 #hero {
   position: relative;
   overflow: hidden;
   min-height: 100vh;
-  background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+  background: linear-gradient(45deg, var(--primary-color), var(--bg-color), var(--secondary-color));
   background-size: 400% 400%;
   animation: gradientAnimation 15s ease infinite;
   display: flex;
@@ -108,8 +111,6 @@ nav ul li a:hover::after {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
-/* Canvas для частиц в hero-блоке */
 #particle-canvas {
   position: absolute;
   top: 0;
@@ -118,270 +119,198 @@ nav ul li a:hover::after {
   height: 100%;
   z-index: 1;
 }
-
-/* Контент в hero */
 .hero-content {
   position: relative;
   text-align: center;
   z-index: 2;
   padding: 20px;
-  animation: fadeIn 2s ease forwards;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  animation: fadeIn 2s ease-in-out;
 }
 .hero-content h1 {
-  font-size: 3em;
-  margin-bottom: 20px;
-}
-.hero-content p {
-  font-size: 1.3em;
-  margin-bottom: 30px;
-}
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
-  background-color: var(--primary-color);
+  font-size: 4em;
+  font-weight: 700;
+  margin-bottom: 10px;
   color: #fff;
 }
-button:hover {
-  transform: scale(1.05);
+.hero-content p {
+  font-size: 1.5em;
+  margin-bottom: 30px;
+}
+.hero-content a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
 }
 
-/* Секция «Фишки» */
-#features {
-  padding: 50px 20px;
-  background: var(--section-bg-color);
-  animation: slideIn 1s ease-out;
-}
-@keyframes slideIn {
-  from { transform: translateX(-100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-#features h2 {
+/* Общие стили для секций */
+section {
+  padding: 80px 20px;
   text-align: center;
-  margin-bottom: 40px;
-  font-size: 2.5em;
+}
+section h2 {
+  font-size: 2.8em;
+  margin-bottom: 50px;
+  position: relative;
+  display: inline-block;
+}
+section h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--accent-color);
+    margin: 10px auto 0;
+}
+
+/* Секция «Проекты» (бывшие фишки) */
+#projects {
+  background: var(--bg-color);
 }
 .features-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
 }
 .feature-card {
   background: var(--card-bg-color);
   width: 300px;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   opacity: 0;
-  transform: translateY(20px);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transform: translateY(50px);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 .feature-card.visible {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 .feature-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-15px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(233, 69, 96, 0.4);
 }
 .feature-card h3 {
   margin-top: 0;
+  color: var(--accent-color);
+  font-size: 1.5em;
 }
 
-/* --- Новая секция: Сервисы --- */
-#services {
-  padding: 50px 20px;
-  background: var(--bg-color);
-}
-#services h2 {
-  text-align: center;
-  margin-bottom: 40px;
-  font-size: 2.5em;
+/* Секция «Обо мне» (бывшие сервисы) */
+#about {
+  background: var(--primary-color);
 }
 .services-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
 }
 .service-card {
   background: var(--card-bg-color);
   width: 300px;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  cursor: pointer;
-  
-  /* Изначальная позиция для анимации */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   opacity: 0;
   transform: translateX(-50px);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 .service-card.visible {
   animation: fadeInLeft 0.8s ease-out forwards;
 }
 @keyframes fadeInLeft {
-  from { opacity: 0; transform: translateX(-50px); }
   to { opacity: 1; transform: translateX(0); }
 }
 .service-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 12px rgba(0,0,0,0.2);
-  transition: transform 0.3s;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
 }
 .service-card h3 {
   margin-top: 0;
+  font-size: 1.5em;
 }
 
-/* --- Новая секция: Галерея --- */
+/* Секция «Галерея» */
 #gallery {
-  padding: 50px 20px;
-  background: var(--section-bg-color);
-}
-#gallery h2 {
-  text-align: center;
-  margin-bottom: 40px;
-  font-size: 2.5em;
+  background: var(--bg-color);
 }
 .gallery-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
 .gallery-item {
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 15px;
   cursor: pointer;
-  
-  /* Изначальные значения для анимации */
   opacity: 0;
   transform: scale(0.8);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
 }
 .gallery-item.visible {
-  animation: zoomIn 0.6s ease forwards;
+  animation: zoomIn 0.7s ease-out forwards;
 }
 @keyframes zoomIn {
-  from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 .gallery-item img {
   width: 100%;
   display: block;
-  transition: transform 0.3s;
+  transition: transform 0.4s ease;
+}
+.gallery-item:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
 .gallery-item:hover img {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
-/* --- Новая секция: Отзывы --- */
-#testimonials {
-  padding: 50px 20px;
-  background: var(--bg-color);
-  text-align: center;
+/* Секция «Контакты» */
+#contacts {
+  background: var(--primary-color);
+  padding: 60px 20px;
 }
-#testimonials h2 {
-  font-size: 2.5em;
-  margin-bottom: 40px;
-}
-.testimonial-slider {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.testimonial {
-  position: absolute;
-  opacity: 0;
-  transition: opacity 1s ease;
-  width: 80%;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.testimonial.active {
-  opacity: 1;
-}
-.testimonial p {
-  font-size: 1.2em;
-  margin-bottom: 15px;
-}
-.testimonial h4 {
-  font-size: 1em;
-  color: #555;
+.contact-info {
+    font-size: 1.5em;
+    line-height: 1.8;
 }
 
-/* Модальное окно */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 3000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-.modal-content {
-  background: var(--card-bg-color);
-  margin: 15% auto;
-  padding: 20px;
-  width: 80%;
-  border-radius: 10px;
-  animation: modalAnimation 0.5s;
-  position: relative;
-}
-@keyframes modalAnimation {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-.close-button {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: color 0.3s;
-  color: var(--text-color);
-}
-.close-button:hover {
-  color: #ff0000;
-}
-
-/* Scroll-to-top кнопка */
+/* Кнопка возврата наверх */
 #scrollToTop {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: var(--primary-color);
+  background-color: var(--accent-color);
   color: #fff;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 15px 20px;
+  border-radius: 50%;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.4s, transform 0.4s;
   z-index: 1500;
 }
 #scrollToTop.active {
   opacity: 1;
+  transform: translateY(0);
+}
+#scrollToTop:hover {
+    transform: scale(1.1) translateY(-5px);
 }
 
 /* Footer */
 footer {
   text-align: center;
-  padding: 20px;
-  background: #333333;
-  color: #ffffff;
+  padding: 30px;
+  background: #000;
+  color: #aaa;
+}
+
+/* Анимации появления */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
