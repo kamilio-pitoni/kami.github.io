@@ -141,7 +141,7 @@
       });
       
       /* Плавная прокрутка при клике на меню */
-      document.querySelectorAll("nav ul li a, .mobile-link").forEach(link => {
+      document.querySelectorAll(".desktop-nav ul li a, .mobile-link").forEach(link => {
         link.addEventListener("click", function(e) {
           e.preventDefault();
           const targetId = this.getAttribute("href").substring(1);
