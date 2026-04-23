@@ -19,7 +19,10 @@
   
   <!-- Фиксированное меню -->
   <header>
-    <nav>
+    <div class="logo-container">
+        <a href="#hero">TGMEN</a>
+    </div>
+    <nav class="desktop-nav">
       <ul>
         <li><a href="#hero">Главная</a></li>
         <li><a href="#projects">Проекты</a></li>
@@ -28,13 +31,27 @@
         <li><a href="#contacts">Контакты</a></li>
       </ul>
     </nav>
+    <div class="hamburger-menu">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
   </header>
+
+  <!-- Мобильное меню -->
+  <div class="mobile-nav">
+    <a href="#hero" class="mobile-link">Главная</a>
+    <a href="#projects" class="mobile-link">Проекты</a>
+    <a href="#about" class="mobile-link">Обо мне</a>
+    <a href="#gallery" class="mobile-link">Галерея</a>
+    <a href="#contacts" class="mobile-link">Контакты</a>
+  </div>
   
   <!-- Hero Section -->
   <section id="hero">
     <canvas id="particle-canvas"></canvas>
     <div class="hero-content">
-      <h1>𝓡𝓾𝓼𝓵𝓪𝓷</h1>
+      <h1 class="main-name">𝓡𝓾𝓼𝓵𝓪𝓷</h1>
       <p>💖 | <a href="https://t.me/m/1j-sF_8pY2Ji" target="_blank">https://t.me/m/1j-sF_8pY2Ji</a> | 💖</p>
     </div>
   </section>
@@ -124,7 +141,7 @@
       });
       
       /* Плавная прокрутка при клике на меню */
-      document.querySelectorAll("nav ul li a").forEach(link => {
+      document.querySelectorAll(".desktop-nav ul li a, .mobile-link").forEach(link => {
         link.addEventListener("click", function(e) {
           e.preventDefault();
           const targetId = this.getAttribute("href").substring(1);
@@ -230,6 +247,25 @@
       /* Кнопка возврата наверх */
       document.getElementById("scrollToTop").addEventListener("click", function() {
         window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      /* Логика для мобильного меню */
+      const hamburger = document.querySelector(".hamburger-menu");
+      const mobileNav = document.querySelector(".mobile-nav");
+      const mobileLinks = document.querySelectorAll(".mobile-link");
+
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("open");
+        mobileNav.classList.toggle("open");
+        document.body.style.overflow = mobileNav.classList.contains("open") ? "hidden" : "";
+      });
+
+      mobileLinks.forEach(link => {
+        link.addEventListener("click", () => {
+          hamburger.classList.remove("open");
+          mobileNav.classList.remove("open");
+          document.body.style.overflow = "";
+        });
       });
       
     });
